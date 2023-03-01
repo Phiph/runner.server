@@ -41,12 +41,11 @@ To simulate multiple runners to use Jobs in parallel use this command.
 
 where N is the number of runners. 
 
-`gharun --event azpipelines -W ./pipeline.yml --runner-version 3.217.1 --watch 5`
+`gharun --event azpipelines -W ./pipeline.yml --runner-version 3.217.1 --watch --parallel 5`
 
 ### Known Issues
-
  
-[when using the dotnet tool "--runner-version" is required](https://github.com/ChristopherHX/runner.server/issues/162)
+[when using the dotnet tool on m1 macs "--runner-version" is required](https://github.com/ChristopherHX/runner.server/issues/162)
 
 ## Reference Azure Pipelines:
 
