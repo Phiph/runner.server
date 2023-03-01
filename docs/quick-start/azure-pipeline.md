@@ -45,15 +45,8 @@ where N is the number of runners.
 
 ### Known Issues
 
-The version `3.11.2` of the dotnet tool is the latest at time of writing.
-
-When attempting to run the tool without the `--runner-version 3.217.1` command it would attempt to download a version that is no longer available to download. 
-
-Version `3.217.1` of the runner is selected in the [latest source](https://github.com/ChristopherHX/runner.server/blob/2877d334a1c2a3ff10002650b225252d20da4697/src/Runner.Client/Program.cs#L1112). Maybe the dotnet tool hasn't been published yet. 
-
-https://www.nuget.org/packages/io.github.christopherhx.gharun
-
-
+ 
+[when using the dotnet tool "--runner-version" is required](https://github.com/ChristopherHX/runner.server/issues/162)
 
 ## Reference Azure Pipelines:
 
