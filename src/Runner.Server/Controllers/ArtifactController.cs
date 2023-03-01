@@ -58,7 +58,7 @@ namespace Runner.Server.Controllers {
             _targetFilePath = Path.Combine(GitHub.Runner.Sdk.GharunUtil.GetLocalStorage(), "artifacts");
             Directory.CreateDirectory(_targetFilePath);
         }
-
+        [NonAction]
         public async Task<ArtifactFileContainer> CreateContainer(long run, long attempt, CreateActionsStorageArtifactParameters req, long artifactsMinAttempt = -1) {
             var filecontainer = (from fileContainer in _context.ArtifactFileContainer where fileContainer.Container.Attempt.Attempt == attempt && fileContainer.Container.Attempt.WorkflowRun.Id == run && fileContainer.Id == req.ContainerId select fileContainer).Include(f => f.Container).Include(f => f.Files).FirstOrDefault();
             if(filecontainer != null) {
@@ -187,7 +187,7 @@ namespace Runner.Server.Controllers {
                             ret.Add(new DownloadInfo { ContainerId = id, path = folderPath, itemType = "folder"});
                         }
                     }
-                    
+
                     ret.Add(new DownloadInfo { ContainerId = id, path = item.FileName, itemType = "file", fileLength = (int)new FileInfo(Path.Combine(_targetFilePath, item.StoreName)).Length, contentLocation = new Uri(new Uri(ServerUrl), $"_apis/pipelines/workflows/artifact/{id}?file={Uri.EscapeDataString(item.FileName)}").ToString() });
                 }
                 return await Ok(ret);

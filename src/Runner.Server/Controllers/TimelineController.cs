@@ -32,7 +32,7 @@ namespace Runner.Server.Controllers
         {
             _context = context;
         }
-
+        [HttpPost]
         public void SyncLiveLogsToDb(Guid timelineId) {
             if(dict.TryGetValue(timelineId, out var entry)) {
                 foreach(var rec in (from record in _context.TimeLineRecords where record.TimelineId == timelineId select record).Include(r => r.Log).ToList()) {
@@ -97,8 +97,8 @@ namespace Runner.Server.Controllers
             }
             return await Ok(new TaskAttachment(type, name) { RecordId = recordId, TimelineId = timelineId });
         }
-        
-        
+
+
         public delegate void TimeLineUpdateDelegate(Guid timelineId, List<TimelineRecord> update);
         public static event TimeLineUpdateDelegate TimeLineUpdate;
 
@@ -178,6 +178,7 @@ namespace Runner.Server.Controllers
             return await UpdateTimeLine(timelineId, patch);
         }
 
+        [NonAction]
         public async Task<IActionResult> UpdateTimeLine(Guid timelineId, VssJsonCollectionWrapper<List<TimelineRecord>> patch)
         {
             var old = (from record in _context.TimeLineRecords where record.TimelineId == timelineId select record).Include(r => r.Log).ToList();
@@ -211,7 +212,7 @@ namespace Runner.Server.Controllers
                 }
             }
             Task.Run(() => TimeLineUpdate?.Invoke(timelineId, records));
-            
+
             await _context.AddRangeAsync(from rec in records where !old.Contains(rec) select rec);
             await _context.SaveChangesAsync();
             return await Ok(patch);

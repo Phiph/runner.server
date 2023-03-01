@@ -38,6 +38,7 @@ namespace Runner.Server.Controllers
         public static event JobAssigned OnJobAssigned;
         public static event JobStarted OnJobStarted;
 
+        [HttpPost]
         public void InvokeJobCompleted(JobCompletedEvent ev) {
             try {
                 {
